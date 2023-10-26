@@ -29,6 +29,8 @@ impl Game for Dice {
     }
 
     fn shuff(self, input: [u8; 16]) -> [u8; 40] {
-        todo!()
+        let mut output = [0u8; 40];
+        output.copy_from_slice(&input);
+        return output;
     }
 }

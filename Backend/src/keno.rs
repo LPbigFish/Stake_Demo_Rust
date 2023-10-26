@@ -17,7 +17,7 @@ impl Game for Keno {
     }
 
     fn roll(self, input: [u8; 16]) -> f32 {
-        todo!()
+        input.iter().sum::<u8>() as f32
     }
 
     fn shuff(self, input: [u8; 16]) -> [u8; 40] {

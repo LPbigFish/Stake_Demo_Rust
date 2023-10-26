@@ -1,5 +1,5 @@
 [package]
-name = "Stake_Demo_Rust"
+name = "stake_demo_rust_backend"
 version = "0.1.0"
 edition = "2021"
 

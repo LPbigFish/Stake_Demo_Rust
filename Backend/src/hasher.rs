@@ -8,15 +8,6 @@ pub fn random_hash() -> [u8; 16] {
     hash
 }
 
-pub fn new_hash_from_int<T: PartialEq + PartialOrd + Copy + Ord + ToString>(input: T) -> [u8; 16] {
-    let mut hasher = Shake128::default();
-    hasher.update(input.to_string().as_bytes());
-    let mut hash = [0u8; 16];
-    let mut reader = hasher.finalize_xof();
-    reader.read(&mut hash);
-    hash
-}
-
 pub fn new_hash_from_bytes(input: &[u8]) -> [u8; 16] {
     let mut hasher = Shake128::default();
     hasher.update(input);
