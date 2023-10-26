@@ -1,9 +1,6 @@
-<script>
-    /**
-	 * @type {{ message: any; }}
-	 */
-     export let error
+<script lang="ts">
+    export let error: Error
 </script>
 {#if error}
-     <strong>{error.message}</strong>
+     <strong class="text-red-700">{ error.message }</strong>
 {/if}
