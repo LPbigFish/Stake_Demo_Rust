@@ -37,17 +37,18 @@
         update();
     });
 </script>
-
-<button class="{ visual === TILE.SELECTED ? "bg-violet-800 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_#000000]" : 
-                visual === TILE.LOCKED && $locked ? "opacity-50 bg-transparent shadow-[0px_0px_0px_7px_#000000] shadow-gray-900 scale-90 -translate-y-1" : 
-                visual === TILE.SELWIN && $locked ? "bg-violet-800 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_rgb(132_204_22)]" :
-                visual === TILE.WINING ? "bg-lime-500 shadow-[0px_3px_0px_5px_#FFFFFF] scale-90 -translate-y-1 border-transparent border-0" : "bg-gray-950" }" on:click={ () => { (visual === TILE.LOCKED || ($locked && !$selected.includes(number) || ($wining.length > 0)) ? () => {} : flip()) }}>
-    <p class="{ visual === TILE.WINING ? "drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)]" : "" }">{number}</p>
+<button class="w-full aspect-square" on:click={ () => { (visual === TILE.LOCKED || ($locked && !$selected.includes(number) || ($wining.length > 0)) ? () => {} : flip()) }}>
+    <div class="{ visual === TILE.SELECTED ? "bg-violet-800 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_#000000]" : 
+        visual === TILE.LOCKED && $locked ? "delay-150 opacity-50 bg-transparent shadow-[0px_0px_0px_7px_#000000] shadow-gray-900 scale-90 -translate-y-1" : 
+        visual === TILE.SELWIN && $locked ? "bg-violet-500 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_rgb(132_204_22)]" :
+        visual === TILE.WINING ? "bg-lime-500 shadow-[0px_3px_0px_5px_#FFFFFF] scale-90 -translate-y-1 border-transparent border-0" : "bg-gray-950" }">
+    <p class=" { visual === TILE.WINING ? "drop-shadow-[0_1.2px_1.5px_rgba(0,0,0,0.8)]" : "" }">{number}</p>
+</div>
 </button>
 
-<style lang="postcss">
 
-    button {
-        @apply w-24 m-1 aspect-square text-3xl font-bold rounded-2xl text-white ease-linear transition-all duration-200 border-gray-900;
+<style lang="postcss">
+    div {
+        @apply w-full aspect-square text-3xl font-bold flex flex-col justify-around rounded-2xl text-white ease-linear transition-all duration-200 border-gray-900;
     }
 </style>

@@ -49,13 +49,13 @@
                         <KenoTile number={tile} />                 
                     {/each}
                 </div>
-                <div class="multies">
+                <ul class="multies">
                     {#each $selected as j, i}
-                        <div class="multi { $selected.filter(value => $wining.includes(value)).length >= i + 1 && $selected.filter(value => $wining.includes(value)).length > 0 ? "bg-lime-500" : "bg-gray-900" }">
+                        <li class="step transition-all duration-200 ease-linear { $selected.filter(value => $wining.includes(value)).length >= i + 1 && $selected.filter(value => $wining.includes(value)).length > 0 ? "step-secondary" : "" }">
                             {i + 1}
-                        </div>
+                        </li>
                     {/each}
-                </div>
+                </ul>
             </div>
             
         </div>
@@ -77,19 +77,19 @@
     }
 
     .table_container {
-        @apply flex-grow h-full grid grid-cols-8;
+        @apply flex-grow grid grid-cols-8 gap-3 h-1/2;
     }
 
     .game {
-        @apply flex flex-col h-fit w-fit;
+        @apply flex flex-col max-w-3xl flex-grow gap-4 h-fit;
     }
 
     .multies {
-        @apply flex flex-row w-full h-16 bg-black;
+        @apply w-full h-16 steps;
     }
 
     .multi {
-        @apply flex-grow text-2xl text-white text-center transition-all delay-100 duration-100 ease-out;
+        @apply step;
     }
 
     .error {
