@@ -37,7 +37,7 @@
         update();
     });
 </script>
-<button class="w-full aspect-square" on:click={ () => { (visual === TILE.LOCKED || ($locked && !$selected.includes(number) || ($wining.length > 0)) ? () => {} : flip()) }}>
+<button class="w-full aspect-square { visual === TILE.LOCKED || ($locked && $wining.length > 0) ? "cursor-default" : "" }" on:click={ () => { (visual === TILE.LOCKED || ($locked && !$selected.includes(number) || ($wining.length > 0)) ? () => {} : flip()) }}>
     <div class="{ visual === TILE.SELECTED ? "bg-violet-800 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_#000000]" : 
         visual === TILE.LOCKED && $locked ? "delay-150 opacity-50 bg-transparent shadow-[0px_0px_0px_7px_#000000] shadow-gray-900 scale-90 -translate-y-1" : 
         visual === TILE.SELWIN && $locked ? "bg-violet-500 scale-90 -translate-y-1 shadow-[0px_4px_0px_7px_rgb(132_204_22)]" :
