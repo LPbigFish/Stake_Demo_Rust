@@ -1,6 +1,7 @@
 use crate::game::Game;
 use crate::hasher::{join_arrays, new_hash_from_bytes, random_hash};
 
+#[derive(Clone, Copy)]
 pub(crate) struct Keno {
     base_hash: [u8; 16],
 }
@@ -14,6 +15,10 @@ impl Game for Keno {
         Keno {
             base_hash: random_hash(),
         }
+    }
+
+    fn new_with_params(base_hash: [u8; 16]) -> Self {
+        Keno { base_hash }
     }
 
     fn roll(self, input: [u8; 16]) -> f32 {

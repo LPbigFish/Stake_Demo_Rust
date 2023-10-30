@@ -1,6 +1,7 @@
 use crate::game::Game;
 use crate::hasher::new_hash_from_bytes;
 
+#[derive(Clone, Copy)]
 pub(crate) struct Dice {
     base_hash: [u8; 16],
 }
@@ -11,6 +12,10 @@ impl Game for Dice {
         Dice {
             base_hash: crate::hasher::random_hash(),
         }
+    }
+
+    fn new_with_params(base_hash: [u8; 16]) -> Self {
+        Dice { base_hash: base_hash }
     }
 
     fn roll(self, input: [u8; 16]) -> f32 {
