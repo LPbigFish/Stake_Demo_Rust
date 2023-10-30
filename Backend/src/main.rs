@@ -49,11 +49,11 @@ async fn dice_game(input_params: web::Json<InputParameters>, data: web::Data<App
     }))
 }
 
-#[post("/keno")]
+#[get("/keno")]
 async fn keno_game(input_params: web::Json<InputParameters>, data: web::Data<AppState>) -> impl Responder {
     let keno = data.keno;
 
-    let input = data.hande_user_hash(input_params.uuid.clone());
+    let input = data.handle_user_hash(input_params.uuid.clone());
 
     
 
@@ -86,13 +86,16 @@ impl AppState {
         }
     }
 
-    fn hande_user_hash(&self, uuid: String) -> [u8;16] {
+    fn handle_user_hash(&self, uuid: String) -> [u8;16] {
         let mut the_map = self.user_hash.lock().unwrap();
-        
-        if the_map.get(&uuid).is_none() {
-            the_map.insert((&uuid).to_owned(), new_hash_from_bytes(uuid.as_bytes()));
-        }
 
-        *the_map.get(&uuid).unwrap()
+        if the_map.contains_key(&uuid) {
+            let hash = new_hash_from_bytes(the_map[&uuid].as_ref()).clone();
+            (*the_map).insert(uuid, hash).unwrap()
+        } else {
+            let hash = new_hash_from_bytes(uuid.as_bytes());
+            (*the_map).insert(uuid, new_hash_from_bytes(hash.as_ref()).clone());
+            hash
+        }
     }
 }
