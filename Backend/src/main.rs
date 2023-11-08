@@ -10,7 +10,7 @@ use std::vec;
 use actix_web::http::header::ContentType;
 use actix_web::{get, HttpResponse, HttpServer, Responder, web, post, HttpRequest};
 use actix_cors::Cors;
-use hasher::new_hash_from_bytes;
+use hasher::*;
 use serde::Deserialize;
 use crate::dice::Dice;
 use crate::game::Game;
@@ -26,15 +26,20 @@ async fn main() -> std::io::Result<()> {
         .wrap(
             Cors::default()
                 .allow_any_origin()
-                .send_wildcard()
                 .allowed_methods(vec!["GET", "POST"])
                 .max_age(3600)
         )
         .app_data(data.clone())
             .service(dice_game)
             .service(keno_game)
+            .service(index)
     }).bind(("127.0.0.1", 8080))?.run().await
 
+}
+
+#[get("/")]
+async fn index() -> impl Responder {
+    HttpResponse::Ok()
 }
 
 #[get("/dice")]
@@ -51,12 +56,13 @@ async fn dice_game(input_params: web::Json<InputParameters>, data: web::Data<App
 
 #[get("/keno")]
 async fn keno_game(input_params: web::Json<InputParameters>, data: web::Data<AppState>) -> impl Responder {
+    let time = std::time::Instant::now();
     let keno = data.keno;
 
     let input = data.handle_user_hash(input_params.uuid.clone());
 
     
-
+    println!("Time: {:?}", time.elapsed());
     HttpResponse::Ok().content_type(ContentType::json()).json(serde_json::json!({
         "keno": keno.shuff(input).split_at(10).0
     }))
@@ -90,7 +96,7 @@ impl AppState {
         let mut the_map = self.user_hash.lock().unwrap();
 
         if the_map.contains_key(&uuid) {
-            let hash = new_hash_from_bytes(the_map[&uuid].as_ref()).clone();
+            let hash = new_hash_from_bytes(&(the_map[&uuid].as_ref())).clone();
             (*the_map).insert(uuid, hash).unwrap()
         } else {
             let hash = new_hash_from_bytes(uuid.as_bytes());

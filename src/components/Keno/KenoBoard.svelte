@@ -2,7 +2,9 @@
     export const ssr = true;
 
 	import { locked, run_check, selected, unlock, wining } from "$lib/keno";
+	import Error from "../Error.svelte";
 	import KenoTile from "./KenoTile.svelte";
+    import { onMount } from "svelte";
     
     export let error = false;
 
@@ -18,29 +20,30 @@
             console.log(count);
         }
     });
-
+onMount(() => {
     setInterval(() => {
-        fetch("http://127.0.0.1:8080/keno").then(_ => {
+        fetch("http://127.0.0.1:8080/").then(_ => {
             error = false;
         }).catch(_ => {
             error = true;
         });
     }, 2000);
 
-    fetch("http://127.0.0.1:8080/keno").then(_ => {
+    fetch("http://127.0.0.1:8080/").then(_ => {
             error = false;
         }).catch(_ => {
             error = true;
     });
+    });
 </script>
 
 {#if error}
-     <div class="error">THERE WAS AN ERROR WITH THE SERVER. PLEASE TRY AGAIN LATER.</div>
+    <div></div>
 {:else}
     <div class="w-screen mx-auto">
         <div class="holder">
             <aside class="side_buttons">
-                <button class="bet_button { $wining.length > 0 ? "btn-disabled" : "" }" on:click={ () => { $wining.length > 0 ? "" : run_check($selected) } }>RUN</button>
+                <button class="bet_button { $wining.length > 0 ? "btn-disabled" : "" }" on:click={ () => { $wining.length > 0 ? "" : run_check($selected, "JINFENINEFIIFE") } }>RUN</button>
                 <button class="bet_button { ($locked && ($wining.length == 10)) ? "" : "btn-disabled" }" on:click={ unlock }>UNLOCK</button>
             </aside>
             <div class="game">
